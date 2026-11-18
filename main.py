@@ -3,12 +3,16 @@
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
-from routers import dashboard
+from services.database import init_db
+from routes.dashboard import router as dashboard_router
 
-app = FastAPI(title="Panou")
+app = FastAPI()
 
-# Înregistrăm rutele din modularizare
-app.include_router(dashboard.router)
+# Inițializăm baza de date la pornire
+init_db()
+
+# Înregistrăm rutele din dashboard
+app.include_router(dashboard_router)
 
 @app.get("/style.css")
 def stil():
